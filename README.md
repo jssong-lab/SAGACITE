@@ -1,4 +1,4 @@
-# geom-stat-protein-count
+# SAGACITE (Statistical and Geometric Analysis of CITE-seq)
 
 Code assciated with the manuscript:
 
