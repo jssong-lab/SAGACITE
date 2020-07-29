@@ -291,11 +291,13 @@ def p_adjust_bh(p):
 def transf_zinb(y, m, a, b, w0=0., is_log='False', log_base = np.exp(1) ):
     y = np.asarray(y, dtype='int')
     dy0 = (y==0).astype('int')
-    m = np.asarray(m)
-    e_lam = (1. - np.divide( w0 * dy0, ( w0 + (1-w0) * np.divide( b, m+b )**a ) ) ) * np.divide( y+a , m+b )
+    m = np.asarray(m, dtype=np.float64)
+    e_lam0 = np.divide( y+a , m+b )
+    e_lamf = 1. - dy0 * w0 / ( w0 + (1-w0) * ( b/ m+b )**a )
     if is_log=='False':
-        # print('a =', a, ', b =', b, ', w =', w0, ', log:', is_log)
-        return e_lam
+        print('a =', a, ', b =', b, ', w =', w0, ', log:', is_log)
+        return e_lam0 * e_lamf
     else:
-        # print('a =', a, ', b =', b, ', w =', w0, ', log:', is_log, ', base =', log_base)
-        return np.log(e_lam) / np.log(log_base)
+        print('a =', a, ', b =', b, ', w =', w0, ', log:', is_log, ', base =', log_base)
+        return ( np.log(e_lam0) + np.log(e_lamf) ) / np.log(log_base)
+   
